@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Социальная Сеть</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        header {
+            background-color: #4267B2;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav {
+            margin: 10px 0;
+            text-align: right;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #4267B2;
+            transition: 0.3s; /* Время перехода */
+        }
+
+        a {
+            display: inline-block; /* Строчно-блочный элемент */
+            transition: 0.3s; /* Время перехода */
+        }
+        a:hover {
+            transform: rotate(3deg) translate(5px); /* Трансформация */
+        }
+
+        .post {
+            background-color: rgba(2, 209, 251, 1);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        .post.dark {
+            background-color: #555; /* Цвет постов в темной теме */
+            color: white;           /* Цвет текста в темной теме */
+        }
+        .post h3 {
+            margin: 0;
+        }
+        .post p {
+            margin: 5px 0;
+        }
+        .settings {
+            display: inline-block;
+            position: relative;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            background-color:rgba(2, 209, 251, 1);
+            border: 1px solid #ccc;
+            z-index: 1;
+            width: 150px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .settings:hover .dropdown {
+            display: block;
+        }
+        .theme-option {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .theme-option:hover {
+            background-color: #f0f2f5;
+        }
+        .search-container {
+            margin: 20px 0;
+        }
+        .search-container input {
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: none;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#">Профиль</a>
+        <a href="#">Сообщения</a>
+        <div class="settings">
+            <a href="#">Настройки</a>
+            <div class="dropdown">
+                <div class="theme-option" onclick="toggleTheme('dark')">Темная тема</div>
+                <div class="theme-option" onclick="toggleTheme('light')">Светлая тема</div>
+                <div class="text-option" onclick="increaseText()">Увеличить текст</div>
+                <div class="text-option" onclick="resetText()">Сбросить текст</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Поиск постов..." onkeyup="searchPosts()">
+    </div>
+
+    <main id="postContainer">
+        <div class="post">
+            <h3>Пользователь 1</h3>
+            <p>Это мой первый пост в социальной сети!</p>
+        </div>
+        <div class="post">
+            <h3>Пользователь 2</h3>
+            <p>Привет всем! Как ваши дела?</p>
+        </div>
+        <div class="post">
+            <h3>Пользователь 3</h3>
+            <p>Сегодня отличный день для прогулки!</p>
+        </div>
+    </main>
+
+    <script>
+        function toggleTheme(theme) {
+            const posts = document.querySelectorAll('.post');
+            if (theme === 'dark') {
+                document.body.style.backgroundColor = '#000';
+                document.body.style.color = '#fff';
+                posts.forEach(post => post.classList.add('dark'));
+            } else {
+                document.body.style.backgroundColor = '#f0f2f'
+                document.body.style.color = '#000';
+                posts.forEach(post => post.classList.remove('dark'));
+            }
+        }
+
+        function increaseText() {
+            let currentSize = parseFloat(getComputedStyle(document.body).fontSize);
+            document.body.style.fontSize = (currentSize + 2) + 'px'; // Увеличиваем размер шрифта
+        }
+
+        function resetText() {
+            document.body.style.fontSize = '16px'; // Сбрасываем размер шрифта
+        }
+
+        function searchPosts() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const posts = document.querySelectorAll('.post');
+            posts.forEach(post => {
+                const text = post.textContent.toLowerCase();
+                post.style.display = text.includes(filter) ? '' : 'none'; // Показываем или скрываем пост
+            });
+        }
+    </script>
+</body>
+</html>
